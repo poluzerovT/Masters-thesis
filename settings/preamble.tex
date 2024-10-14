@@ -1,7 +1,7 @@
 \documentclass[
 candidate, % document type
 subf, % use and configure subfig package for nested figure numbering
-times % use Times font as main
+times new roman % use Times New Roman font as main
 ]{disser}
 
 % Кодировка и язык
@@ -26,7 +26,7 @@ times % use Times font as main
 
 % Библиография и ссылки
 \usepackage{cite} % поддержка цитирования
-\usepackage{hyperref} % создание гиперссылок
+\usepackage[hidelinks]{hyperref} % создание гиперссылок
 
 % Прочее
 \usepackage{color} % работа с цветом
@@ -39,7 +39,9 @@ times % use Times font as main
 \usepackage{listings} % поддержка вставки исходного кода
 
 % Установка шрифта Times New Roman
-\renewcommand{\rmdefault}{ftm}
+%\renewcommand{\rmdefault}{ftm}
+%\usepackage{fontspec}
+%\setmainfont{Times New Roman}
 
 % Создание нового типа столбца для выравнивания содержимого по центру
 \newcommand{\PreserveBackslash}[1]{\let\temp=\\#1\let\\=\temp}
@@ -67,6 +69,10 @@ times % use Times font as main
 \pagestyle{footcenter}
 \chapterpagestyle{footcenter}
 
+
+%сдвиг в списк
+\usepackage{enumitem}
+\setlist{leftmargin=20mm}
 
 % метаданные PDF
 \hypersetup{
