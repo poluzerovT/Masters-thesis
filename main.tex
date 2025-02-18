@@ -1,27 +1,27 @@
+% !TEX root = main.tex
 % Подключение файла с настройками и подключенными пакетами
 \input{settings/preamble.tex}
 
 \begin{document}
-	
 	% Включение титульного листа (первая страница файла Title.pdf)
 	%\includepdf[pages={1-1}]{extra/Title.pdf}
 	
 	% Аннотация, Содержание, Введение
-	\input{chapters/introduction.tex}
+	\input{periphery/introduction.tex}
 	
 	% Подключение глав
-	\input{chapters/chapter_1.tex}
+	\input{body/chapter_1.tex}
 	%\input{chapters/chapter_2.tex}
 	%\input{chapters/chapter_3.tex}
 	%\input{chapters/chapter_4.tex}
 	
 	% Заключение
-	%\input{chapters/conclusion.tex}
+	\input{periphery/conclusion.tex}
 	
 	% Библиографический список
-	%\input{chapters/bibliography.tex}
+	\input{biblio/bibliography.tex}
 	
-	% Приложение (может быть пустым)
-	%\input{chapters/appendix.tex}
+	% Приложение
+	\input{periphery/appendix.tex}
 	
 \end{document}
