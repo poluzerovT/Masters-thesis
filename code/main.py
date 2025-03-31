@@ -10,6 +10,7 @@ import json
 import os
 from typing import Tuple, List, Dict
 import abc
+from strategies import *
 
 def load_data():
     data = pd.read_csv('code/data/crypto.csv', index_col='dt', parse_dates=['dt'])
@@ -25,55 +26,56 @@ def load_data():
     print('ccys', ASSET_NAMES)
     return data
 
-def timeseries_split(df:pd.DataFrame, input_width:int, offset:int) -> Tuple[pd.DataFrame, pd.DataFrame]:
+def timeseries_split(df:pd.DataFrame, input_width:int, offset:int, delay:int):
     size = df.shape[0]
     total_width = input_width + offset
-    for i in range(size - total_width):
-        x_hist = df.iloc[i:i+input_width].values
+    for i in range(delay, size - total_width):
+        x_hist = df.iloc[:i+input_width].values
         x_now = df.iloc[i + input_width].values.reshape((1, -1))
-        x_test = df.iloc[i+total_width].values
-        yield i, x_hist, x_now, x_test
+        x_test = df.iloc[i + total_width].values.reshape((1, -1))
+        yield df.index[i], x_hist, x_now, x_test
 
 class Evaluator:
-    def __init__(self):
-        self.rois = {}
-        self.prices = {
-            'open': [],
-            'close': [],
-        }
+    def __init__(self, data:pd.DataFrame, input_width:int, offset:int):
+        self.data = data
+        self.input_width = input_width
+        self.offset = offset
+        self.asset_names = data.columns.tolist()
+        print(f'Created evaluator: {self.asset_names}')
 
-    def evaluate(self, strategy, w, x_now, x_future):
-        dprice = x_future - x_now
-        roi = dprice / x_now
-        w = w.reshape((-1, 1))  
-        roi_port = (roi @ w).item()
-        if strategy not in self.rois:
-            self.rois[strategy] = []
-        self.rois[strategy].append(roi_port)
+    def evaluate(self, strategies):
+        history = []
+        cnt = 0
+        for dt, x_hist, x_now, x_future in timeseries_split(self.data, self.input_width, self.offset, delay=2*self.input_width):
+            hist = {}
+            cnt += 1
+            for strategy in strategies:
+                strategy.fit(x_hist)
+                w_predict = strategy.predict(x_now)
 
-    def save_results(self):
-        pd.concat([
-            pd.DataFrame(self.rois),
-            # pd.DataFrame(self.prices)
-        ], axis=1).to_csv('results.csv', index=False)
-        # pd.DataFrame(self.rois).to_csv('results.csv')
+                hist[strategy.name] = {
+                    'dt': dt.strftime(format='%Y-%m-%d'),
+                    'w': pd.Series(w_predict.flatten(), index=self.asset_names).to_dict(),
+                    'roi': self.port_roi_metric(w_predict, x_now, x_future),
+                    'roi_mean_exp': strategy.mean_roi_est,
+                    'roi_var_exp': strategy.var_roi_est
+                }
+                # hist[strategy.name].extend(strategy.metadata)
+            history.append(hist)
+            if cnt > 10:
+                break
+        self._history = history
 
-class Strategy:
-    def __init__(self, name):
-        self.name = name
-        
-    def predict(self, x_hist):
-        self.n = x_hist.shape[1]
-        w = np.zeros(self.n)
-        w[0] = 1
-        return w
-    
-    def __hash__(self):
-        return hash(self.__str__())
-    def __repr__(self):
-        return f'{self.name}'
-    def __str__(self):
-        return self.__repr__()
+    def port_roi_metric(self, w, open_price, close_price):
+        diff_price = close_price - open_price
+        roi = diff_price / open_price
+        port_roi = (w @ roi.T).item()
+        return port_roi
+
+    def save_results(self, save_path):
+        with open(save_path, 'w') as f:
+            f.write(json.dumps(self._history, indent=4))
+
 
 def main():
     data = load_data()
@@ -82,18 +84,14 @@ def main():
     offset = 7
 
     strategies = [
-        Strategy('test'),
-        Strategy('other'),
+        MarkowitzClassic('mark_classic', input_width, offset, 1),
+        SingleAsset('single', input_width, offset, 0),
+        # SingleAsset('second', 1, input_width, offset),
     ]
-    evaluator = Evaluator()
-
-    for i, x_hist, x_now, x_future in timeseries_split(data, input_width, offset):
-        evaluator.update_prices(x_now, x_future)
-        for strategy in strategies:
-            w_predict = strategy.predict(x_hist)
-            evaluator.evaluate(strategy, w_predict, x_now, x_future)
-        
-    evaluator.save_results()
+    evaluator = Evaluator(data, input_width, offset)
+    evaluator.evaluate(strategies)
+    # evaluator.save_results('code/results/backtest.csv')
+    evaluator.save_results('code/results/backtest.json')
 
 
 
