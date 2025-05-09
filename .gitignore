@@ -15,3 +15,5 @@
 
 # jupyter 
 .ipynb*
+
+_minted/
