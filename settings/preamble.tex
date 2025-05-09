@@ -37,6 +37,44 @@ times new roman % use Times New Roman font as main
 \usepackage[onehalfspacing]{setspace} % полуторный интервал
 \usepackage{fancyhdr} % установка колонтитулов
 \usepackage{listings} % поддержка вставки исходного кода
+\usepackage{float} % для позиционирования изображений
+
+% for code listing
+\usepackage{minted}
+\usepackage{etoolbox}
+\setminted{fontsize=\small,baselinestretch=0.5, linenos}
+% \definecolor{codegreen}{rgb}{0,0.6,0}
+% \definecolor{codegray}{rgb}{0.5,0.5,0.5}
+% \definecolor{codepurple}{rgb}{0.58,0,0.82}
+% \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% \lstdefinestyle{mystyle}{
+%     backgroundcolor=\color{backcolour},   
+%     commentstyle=\color{codegreen},
+%     keywordstyle=\color{magenta},
+%     numberstyle=\tiny\color{codegray},
+%     stringstyle=\color{codepurple},
+%     basicstyle=\ttfamily\footnotesize,
+%     breakatwhitespace=false,         
+%     breaklines=true,                 
+%     captionpos=b,                    
+%     keepspaces=true,                 
+%     numbers=left,                    
+%     numbersep=5pt,                  
+%     showspaces=false,                
+%     showstringspaces=false,
+%     showtabs=false,                  
+%     tabsize=2
+% }
+
+% \lstset{
+%     style=mystyle,
+%     extendedchars=true,
+%     inputencoding=utf8
+%     }
+
+% dataframe to latex
+\usepackage{{booktabs}}
 
 % Установка шрифта Times New Roman
 % \renewcommand{\rmdefault}{ftm}
