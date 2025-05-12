@@ -1,3 +1,4 @@
+% !TEX root = main.tex
 \documentclass[
 candidate, % document type
 subf, % use and configure subfig package for nested figure numbering
@@ -25,8 +26,14 @@ times new roman % use Times New Roman font as main
 \usepackage{amssymb} % дополнительные математические символы
 
 % Библиография и ссылки
-\usepackage{cite} % поддержка цитирования
+% \usepackage{cite} % поддержка цитирования
 \usepackage[hidelinks]{hyperref} % создание гиперссылок
+
+% bibliography
+\usepackage[
+    backend=biber
+]{biblatex}
+\addbibresource{biblio/biblio.bib}
 
 % Прочее
 \usepackage{color} % работа с цветом

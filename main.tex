@@ -1,28 +1,20 @@
 % !TEX root = main.tex
-% Подключение файла с настройками и подключенными пакетами
 \input{settings/preamble.tex}
 
 \begin{document}
-	% Включение титульного листа (первая страница файла Title.pdf)
-	% \includepdf[pages={1-1}]{extra/Title.pdf}
 	\input{periphery/title.tex}
+	\input{periphery/toc.tex}
+	\input{periphery/description.tex}
 
-	% Аннотация, Содержание, Введение
-	\input{periphery/introduction.tex}
-	
-	% Подключение глав
+	\input{body/introduction.tex}
 	\input{body/chapter_1.tex}
 	\input{body/chapter_2.tex}
 	\input{body/chapter_3.tex}
-
+	\input{body/conclusion.tex}
 	
-	% Заключение
-	\input{periphery/conclusion.tex}
+	\cite{shiryaev_finmath}
+	\input{biblio/bibliography.tex}
 	
-	% Библиографический список
-	% \input{biblio/bibliography.tex}
-	
-	% Приложение
 	% \input{periphery/appendix.tex}
 	
 \end{document}
