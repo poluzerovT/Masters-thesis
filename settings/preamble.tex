@@ -115,10 +115,14 @@ times new roman % use Times New Roman font as main
 \pagestyle{footcenter}
 \chapterpagestyle{footcenter}
 
+% статистики работы
+\usepackage{lastpage}
+\usepackage[figure, table, chapter]{totalcount}
 
 %сдвиг в списк
 \usepackage{enumitem}
-\setlist{leftmargin=20mm}
+\setlist[enumerate]{topsep=0pt, parsep=0pt, leftmargin=20mm}
+\setlist[itemize]{topsep=0pt, parsep=0pt, leftmargin=20mm}
 
 % метаданные PDF
 \hypersetup{
