@@ -130,42 +130,41 @@
 	a(x) = \frac{1}{k} \sum_{i=1}^{k} b_i(x)
 \end{align}
 
-% исправить формулы
 Ошибку работы ансамбля можно разложить на 3 компоненты
 \begin{align}
 	Q(a) = bias(a) + variance(a) + noiсe
 \end{align}
 где
 \begin{align}
-	bias(a) = f(x) - \E{a(x, X)}_X \\
+	bias(a) = f(x) - \mathbb{E}_X\left[a(x, X)\right] \\
 \end{align} 
 --- смещение алгоритма,
 \begin{align}
-	variance(a) = \E{a(x, X)}_X -\E{a(x, X)}_x^2 \\
+	variance(a) = \mathbb{E}_X\left[a(x, X)\right] -\mathbb{E}_X\left[a(x, X)\right]^2 \\
 \end{align}
 --- разброс алгоритма,
 \begin{align}
-	noiсe = \E{\E{\left( y(x, \epsilon) - f(x) \right)^2}_{\epsilon}}_x
+	noiсe = \mathbb{E}_X\left[\mathbb{E}_{\epsilon}\left[\left( y(x, \epsilon) - f(x) \right)^2\right]\right]
 \end{align}
 --- неустранимый шум.
 
 Смещение ансамбля определяется смещением базового алгоритма. Поэтому разумно строить неглубокие деревья.
 \begin{align}
 	bias(a) = 
-	f(x) - \E{a(x, X)}_X = \\
-	= f(x) - \E{\frac{1}{k} \sum_{i=1}^{k} b(x, X^i)}_X = \\
-	= f(x) - \E{b(x, X)}_X = \\
+	f(x) - \mathbb{E}_X\left[a(x, X)\right] = \\
+	= f(x) - \mathbb{E}_X\left[\frac{1}{k} \sum_{i=1}^{k} b(x, X^i)\right] = \\
+	= f(x) - \mathbb{E}_X\left[b(x, X)\right] = \\
 	= bias_X(b)
 \end{align}
 
 Разброс ансамбля определяется числом базовых алгоритмов в нем и корреляциями между ними.
 Постараемся добиться некоррелированности, или, по крайней мере, непохожести базовых алгоритмов за счет обучения
 каждого из нах на разных данных. С этим помогает идея бутстрапирования.
-% исправить формулу
+
 \begin{align}
-	variance(a) & = \E{a(x, X) - \E{a(x, X)}_X }_X^2 = \\
-	& = \E{\frac{1}{k} \sum_{i=1}^{k} b_i - \E{\frac{1}{k} \sum_{i=1}^{k} b_i }_X }_X^2 = \\
-	& = \frac{1}{k^2} \E{\sum_{i=1}^{k} \left( b_i - \E{b_i \right)}_X }_X^2 = \\
+	variance(a) & = \mathbb{E}_X\left[a(x, X) - \mathbb{E}_x\left[a(x, X)\right]\right]^2 = \\
+	& = \mathbb{E}_X\left[\frac{1}{k} \sum_{i=1}^{k} b_i - \mathbb{E}_X\left[\frac{1}{k} \sum_{i=1}^{k}\right]\right]^2 = \\
+	& = \frac{1}{k^2} \mathbb{E}_X\left[\sum_{i=1}^{k} \left( b_i - \mathbb{E}_X\left[b_i \right]\right)\right]^2 = \\
 	& = \frac{1}{k^2} \sum_{i=1}^{k} variance_X(b_i) + 
 	\frac{1}{k^2} \sum_{i \ne j} \COV{b_i}{b_j}
 \end{align}
