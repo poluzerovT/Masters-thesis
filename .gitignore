@@ -1,0 +1,19 @@
+# tex
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.gz
+*.toc
+*.txss2
+*.fls
+*.fdb_latexmk
+
+# vscode
+.vscode/
+
+# jupyter 
+.ipynb*
+
+_minted/
