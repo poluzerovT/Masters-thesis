@@ -9,6 +9,8 @@
 *.txss2
 *.fls
 *.fdb_latexmk
+*.snm
+*.nav
 
 # vscode
 .vscode/
