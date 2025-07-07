@@ -56,27 +56,15 @@
 % \usepackage{biblatex}
 
 
-\title[]{МОДЕЛИ ДОХОДНОСТЕЙ АКТИВОВ В СРЕДНЕ-ДИСПЕРСИОННОМ АНАЛИЗЕ МАРКОВИЦА НА КРИПТОВАЛЮТНЫХ РЫНКАХ}
+\title[]{ML для портфельной теории Марковица}
 \subtitle{}
 \author[Полузёров Т. Д.]{Полузёров Тимофей Дмитриевич}
-\institute[]{Научный руководитель Харин Алексей Юрьевич}
+% \institute[]{Научный руководитель Харин Алексей Юрьевич}
 \date{}
 
 \begin{document}
 \begin{frame}
     \titlepage
-\end{frame}
-
-\begin{frame}
-    \begin{itemize}
-        \item \textbf{Объект исследования}: методы прогнозирования средней доходности, портфельная теория
-        
-        \item \textbf{Предмет исследования}: эффективность методов оценки средней доходности и 
-        оценка доходностей соотвествующих портфелей
-        
-        \item \textbf{Цель исследования}: исследовать на реальных данных эффективность методов
-        оценки средней ожидаемой доходности в портфельной теории Марковица
-    \end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -144,6 +132,26 @@
         \omega^T \Sigma \omega
     \]
     где $\mu = \E{r}$, а $\Sigma$ --- ковариационная матрица случайного вектора $r$.
+\end{frame}
+
+\begin{frame}
+    \frametitle{Интерпретация характеристик доходости портфеля}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.75\textwidth]{equal_var_cut.png}
+        \caption{Предпочтения в средней доходности портфеля}
+        \label{fig:equal_var}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Дисперсия как мера риска}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.75\textwidth]{equal_mean_cut.png}
+        \caption{Предпочтения в риске портфеля}
+        \label{fig:equal_mean}
+    \end{figure}
 \end{frame}
 
 \subsection{Оптимизационная задача}
